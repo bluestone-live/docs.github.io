@@ -2,13 +2,13 @@
 
 Borrow ERC20 tokens or ETH from the protocol with specified amount and term. We also need to supply collateral tokens into the protocol so that this borrow meets the **minimum collateral covearage ratio**, which can be calculated by:
 
-```
+```javascript
 (collateralAmount * collateralTokenPrice) / (loanAmount * loanTokenPrice)
 ```
 
 For example, to borrow `100` DAI using `300` USDC as collateral, assuming both token prices are equal to `$1` and the minimum collateral coverage ratio requirement is `150%`:
 
-```
+```javascript
 (300 * 1) / (100 * 1) = 300%
 ```
 
@@ -27,7 +27,7 @@ function loan(
 ) external payable returns (bytes32 loanId);
 ```
 
-## Borrow using ERC20 tokens as collateral
+## Loan using ERC20 tokens as collateral
 
 As an example, we will borrow `100` [DAI](https://etherscan.io/token/0x6b175474e89094c44da98b954eedeac495271d0f) on `30-day` term and supply `300` [USDC](https://etherscan.io/token/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48) as collateral:
 
@@ -57,7 +57,7 @@ const receipt = await protocol.methods
 console.log(receipt)
 ```
 
-## Borrow using ETH as collateral
+## Loan using ETH as collateral
 
 Because ETH is currently not ERC20-compatible, we will use `address(1)` as an identifier address for ETH, just so the contract can distinguish it from ERC20 tokens.
 
