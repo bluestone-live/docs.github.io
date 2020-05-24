@@ -6,8 +6,8 @@ BlueStone is a decentralized banking protocol that captures the time value of cr
 
 This site serves documentation for users, developers and researchers who want to better understand BlueStone features and interact with smart contracts.
 
-- [Developer Guides](developer-guides/README.md)
-- [Contract ABIs](abis/README.md)
+- [Developer Guides](developer-guides)
+- [Contract ABIs](abis)
 
 ## Questions / Suggestions
 
