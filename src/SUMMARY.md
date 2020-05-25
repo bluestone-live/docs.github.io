@@ -8,6 +8,8 @@
   - [Loan](developer-guides/loan.md)
   - [Repay Loan](developer-guides/repay-loan.md)
   - [Liquidate Loan](developer-guides/liquidate-loan.md)
+  - [Add Collateral](developer-guides/add-collateral.md)
+  - [Withdraw Collateral](developer-guides/withdraw-collateral.md)
   - [Learn More](developer-guides/learn-more.md)
 - [Contracts](contracts/README.md)
   - [Protocol ABI](contracts/abi.md)
