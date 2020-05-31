@@ -2,7 +2,6 @@
 
 - [Getting Started](README.md)
 - [Developer Guides](developer-guides/README.md)
-  - [Interact with contracts](developer-guides/interact-with-contracts.md)
   - [Deposit](developer-guides/deposit.md)
   - [Withdraw](developer-guides/withdraw.md)
   - [Loan](developer-guides/loan.md)
