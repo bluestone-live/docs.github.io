@@ -10,6 +10,7 @@
   - [Add Collateral](developer-guides/add-collateral.md)
   - [Withdraw Collateral](developer-guides/withdraw-collateral.md)
   - [Learn More](developer-guides/learn-more.md)
+- [Distributor Guides](distributor-guides/README.md)
 - [Contracts](contracts/README.md)
   - [Protocol ABI](contracts/abi.md)
   - [Contract Address](contracts/address.md)
