@@ -1,0 +1,2080 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Protocol ABI - BlueStone Documentation</title>
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="../developer-guides/index.html"><strong aria-hidden="true">2.</strong> Developer Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../developer-guides/deposit.html"><strong aria-hidden="true">2.1.</strong> Deposit</a></li><li class="chapter-item expanded "><a href="../developer-guides/withdraw.html"><strong aria-hidden="true">2.2.</strong> Withdraw</a></li><li class="chapter-item expanded "><a href="../developer-guides/loan.html"><strong aria-hidden="true">2.3.</strong> Loan</a></li><li class="chapter-item expanded "><a href="../developer-guides/repay-loan.html"><strong aria-hidden="true">2.4.</strong> Repay Loan</a></li><li class="chapter-item expanded "><a href="../developer-guides/liquidate-loan.html"><strong aria-hidden="true">2.5.</strong> Liquidate Loan</a></li><li class="chapter-item expanded "><a href="../developer-guides/add-collateral.html"><strong aria-hidden="true">2.6.</strong> Add Collateral</a></li><li class="chapter-item expanded "><a href="../developer-guides/withdraw-collateral.html"><strong aria-hidden="true">2.7.</strong> Withdraw Collateral</a></li><li class="chapter-item expanded "><a href="../developer-guides/learn-more.html"><strong aria-hidden="true">2.8.</strong> Learn More</a></li></ol></li><li class="chapter-item expanded "><a href="../distributor-guides/index.html"><strong aria-hidden="true">3.</strong> Distributor Guides</a></li><li class="chapter-item expanded "><a href="../contracts/index.html"><strong aria-hidden="true">4.</strong> Contracts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../contracts/abi.html" class="active"><strong aria-hidden="true">4.1.</strong> Protocol ABI</a></li><li class="chapter-item expanded "><a href="../contracts/address.html"><strong aria-hidden="true">4.2.</strong> Contract Address</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">BlueStone Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#protocol-abi" id="protocol-abi">Protocol ABI</a></h1>
+<pre><code class="language-json">[
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;accountAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;recordId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;collateralTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;collateralAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;AddCollateralSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;distributorAccountAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;recordId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;depositTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;interestForDistributor&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;DepositDistributorFeeTransfered&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;accountAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;recordId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;depositTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;amount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;DepositSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;adminAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;term&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;DisableDepositTermSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;adminAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;tokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;DisableDepositTokenSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;accountAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;recordId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;depositTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;amount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;EarlyWithdrawSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;adminAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;term&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;EnableDepositTermSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;adminAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;tokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;EnableDepositTokenSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;accountAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;recordId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;depositTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;interestForProtocolReserve&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;InterestReserveTransfered&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;accountAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;recordId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;loanTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;liquidateAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      },
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;collateralTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;soldCollateralAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;LiquidateLoanSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;distributorAccountAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;recordId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;loanTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;interestForLoanDistributor&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;LoanDistributorFeeTransfered&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;accountAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;recordId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;loanTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;loanAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      },
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;collateralTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;collateralAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;LoanSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;previousOwner&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;newOwner&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;OwnershipTransferred&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;account&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;Paused&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;distributorAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;recordId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;amount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;PayDepositDistributorFailed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;distributorAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;recordId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;amount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;PayLoanDistributorFailed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;adminAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;loanTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;collateralTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;RemoveLoanAndCollateralTokenPairSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;accountAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;recordId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;loanTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;repayAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      },
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;collateralTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;returnedCollateralAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;bool&quot;,
+        &quot;name&quot;: &quot;isFullyRepaid&quot;,
+        &quot;type&quot;: &quot;bool&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;RepayLoanSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;adminAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;interestModelAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;SetInterestModelSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;adminAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;loanTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;collateralTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;minCollateralCoverageRatio&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;liquidationDiscount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;SetLoanAndCollateralTokenPairSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;adminAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;maxDepositDistributorFeeRatio&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;maxLoanDistributorFeeRatio&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;SetMaxDistributionFeeRatiosSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;adminAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;tokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;priceOracleAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;SetPriceOracleSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;adminAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;protocolAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;SetProtocolAddressSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;adminAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;protocolReserveRatio&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;SetProtocolReverveRatioSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;accountAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;collateralTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;recordId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;collateralAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;SubtractCollateralSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;account&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;Unpaused&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;anonymous&quot;: false,
+    &quot;inputs&quot;: [
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;accountAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;recordId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;indexed&quot;: true,
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;depositTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;indexed&quot;: false,
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;amount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;WithdrawSucceed&quot;,
+    &quot;type&quot;: &quot;event&quot;
+  },
+  {
+    &quot;inputs&quot;: [],
+    &quot;name&quot;: &quot;owner&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [],
+    &quot;name&quot;: &quot;paused&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;bool&quot;,
+        &quot;name&quot;: &quot;&quot;,
+        &quot;type&quot;: &quot;bool&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [],
+    &quot;name&quot;: &quot;renounceOwnership&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;newOwner&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;transferOwnership&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;stateMutability&quot;: &quot;payable&quot;,
+    &quot;type&quot;: &quot;receive&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;term&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;enableDepositTerm&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;term&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;disableDepositTerm&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;tokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;enableDepositToken&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;tokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;disableDepositToken&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;tokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;depositAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;depositTerm&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;address payable&quot;,
+        &quot;name&quot;: &quot;distributorAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;deposit&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;depositId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;payable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;depositId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;withdraw&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;withdrewAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;depositId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;earlyWithdraw&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;withdrewAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [],
+    &quot;name&quot;: &quot;getDepositTerms&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256[]&quot;,
+        &quot;name&quot;: &quot;depositTermList&quot;,
+        &quot;type&quot;: &quot;uint256[]&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [],
+    &quot;name&quot;: &quot;getDepositTokens&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address[]&quot;,
+        &quot;name&quot;: &quot;depositTokenAddressList&quot;,
+        &quot;type&quot;: &quot;address[]&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;depositId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;getDepositRecordById&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;components&quot;: [
+          {
+            &quot;internalType&quot;: &quot;bytes32&quot;,
+            &quot;name&quot;: &quot;depositId&quot;,
+            &quot;type&quot;: &quot;bytes32&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;address&quot;,
+            &quot;name&quot;: &quot;tokenAddress&quot;,
+            &quot;type&quot;: &quot;address&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;depositTerm&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;depositAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;poolId&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;interest&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;createdAt&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;withdrewAt&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;weight&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          }
+        ],
+        &quot;internalType&quot;: &quot;struct IStruct.GetDepositRecordResponse&quot;,
+        &quot;name&quot;: &quot;depositRecord&quot;,
+        &quot;type&quot;: &quot;tuple&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;accountAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;getDepositRecordsByAccount&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;components&quot;: [
+          {
+            &quot;internalType&quot;: &quot;bytes32&quot;,
+            &quot;name&quot;: &quot;depositId&quot;,
+            &quot;type&quot;: &quot;bytes32&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;address&quot;,
+            &quot;name&quot;: &quot;tokenAddress&quot;,
+            &quot;type&quot;: &quot;address&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;depositTerm&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;depositAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;poolId&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;interest&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;createdAt&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;withdrewAt&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;weight&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          }
+        ],
+        &quot;internalType&quot;: &quot;struct IStruct.GetDepositRecordResponse[]&quot;,
+        &quot;name&quot;: &quot;depositRecordList&quot;,
+        &quot;type&quot;: &quot;tuple[]&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;depositId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;isDepositEarlyWithdrawable&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;bool&quot;,
+        &quot;name&quot;: &quot;isEarlyWithdrawable&quot;,
+        &quot;type&quot;: &quot;bool&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [],
+    &quot;name&quot;: &quot;getMaxLoanTerm&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;maxLoanTerm&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;loanTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;collateralTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;loanAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;collateralAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;loanTerm&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;address payable&quot;,
+        &quot;name&quot;: &quot;distributorAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;loan&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;loanId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;payable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;loanId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;repayAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;repayLoan&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;remainingDebt&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;payable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;loanId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;liquidateAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;liquidateLoan&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;remainingCollateral&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;liquidatedAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;payable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;tokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;term&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;getLoanInterestRate&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;loanInterestRate&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;loanId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;getLoanRecordById&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;components&quot;: [
+          {
+            &quot;internalType&quot;: &quot;bool&quot;,
+            &quot;name&quot;: &quot;isClosed&quot;,
+            &quot;type&quot;: &quot;bool&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;bytes32&quot;,
+            &quot;name&quot;: &quot;loanId&quot;,
+            &quot;type&quot;: &quot;bytes32&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;address&quot;,
+            &quot;name&quot;: &quot;loanTokenAddress&quot;,
+            &quot;type&quot;: &quot;address&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;address&quot;,
+            &quot;name&quot;: &quot;collateralTokenAddress&quot;,
+            &quot;type&quot;: &quot;address&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;loanAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;collateralAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;loanTerm&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;annualInterestRate&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;interest&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;collateralCoverageRatio&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;minCollateralCoverageRatio&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;alreadyPaidAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;liquidatedAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;soldCollateralAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;createdAt&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;dueAt&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;remainingDebt&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          }
+        ],
+        &quot;internalType&quot;: &quot;struct IStruct.GetLoanRecordResponse&quot;,
+        &quot;name&quot;: &quot;loanRecord&quot;,
+        &quot;type&quot;: &quot;tuple&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;accountAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;getLoanRecordsByAccount&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;components&quot;: [
+          {
+            &quot;internalType&quot;: &quot;bool&quot;,
+            &quot;name&quot;: &quot;isClosed&quot;,
+            &quot;type&quot;: &quot;bool&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;bytes32&quot;,
+            &quot;name&quot;: &quot;loanId&quot;,
+            &quot;type&quot;: &quot;bytes32&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;address&quot;,
+            &quot;name&quot;: &quot;loanTokenAddress&quot;,
+            &quot;type&quot;: &quot;address&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;address&quot;,
+            &quot;name&quot;: &quot;collateralTokenAddress&quot;,
+            &quot;type&quot;: &quot;address&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;loanAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;collateralAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;loanTerm&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;annualInterestRate&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;interest&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;collateralCoverageRatio&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;minCollateralCoverageRatio&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;alreadyPaidAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;liquidatedAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;soldCollateralAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;createdAt&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;dueAt&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;remainingDebt&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          }
+        ],
+        &quot;internalType&quot;: &quot;struct IStruct.GetLoanRecordResponse[]&quot;,
+        &quot;name&quot;: &quot;loanRecordList&quot;,
+        &quot;type&quot;: &quot;tuple[]&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;loanId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;collateralAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;addCollateral&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;totalCollateralAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;payable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;bytes32&quot;,
+        &quot;name&quot;: &quot;loanId&quot;,
+        &quot;type&quot;: &quot;bytes32&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;collateralAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;subtractCollateral&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;totalCollateralAmount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;loanTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;collateralTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;minCollateralCoverageRatio&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;liquidationDiscount&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;setLoanAndCollateralTokenPair&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;loanTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;collateralTokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;removeLoanAndCollateralTokenPair&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [],
+    &quot;name&quot;: &quot;getLoanAndCollateralTokenPairs&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;components&quot;: [
+          {
+            &quot;internalType&quot;: &quot;address&quot;,
+            &quot;name&quot;: &quot;loanTokenAddress&quot;,
+            &quot;type&quot;: &quot;address&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;address&quot;,
+            &quot;name&quot;: &quot;collateralTokenAddress&quot;,
+            &quot;type&quot;: &quot;address&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;minCollateralCoverageRatio&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;liquidationDiscount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          }
+        ],
+        &quot;internalType&quot;: &quot;struct IStruct.LoanAndCollateralTokenPair[]&quot;,
+        &quot;name&quot;: &quot;loanAndCollateralTokenPairList&quot;,
+        &quot;type&quot;: &quot;tuple[]&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;tokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;getPoolsByToken&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;components&quot;: [
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;poolId&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;depositAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;availableAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;loanInterest&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;totalDepositWeight&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          }
+        ],
+        &quot;internalType&quot;: &quot;struct IStruct.GetPoolsByTokenResponse[]&quot;,
+        &quot;name&quot;: &quot;poolList&quot;,
+        &quot;type&quot;: &quot;tuple[]&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;tokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;poolId&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;getPoolById&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;components&quot;: [
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;depositAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;availableAmount&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;loanInterest&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;totalDepositWeight&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;depositDistributorFeeRatio&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;loanDistributorFeeRatio&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          },
+          {
+            &quot;internalType&quot;: &quot;uint256&quot;,
+            &quot;name&quot;: &quot;protocolReserveRatio&quot;,
+            &quot;type&quot;: &quot;uint256&quot;
+          }
+        ],
+        &quot;internalType&quot;: &quot;struct IStruct.Pool&quot;,
+        &quot;name&quot;: &quot;pool&quot;,
+        &quot;type&quot;: &quot;tuple&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;tokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;contract IPriceOracle&quot;,
+        &quot;name&quot;: &quot;priceOracle&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;setPriceOracle&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;contract IInterestModel&quot;,
+        &quot;name&quot;: &quot;interestModel&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;setInterestModel&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address payable&quot;,
+        &quot;name&quot;: &quot;interestReserveAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;setInterestReserveAddress&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;protocolReserveRatio&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;setProtocolReserveRatio&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;depositDistributorFeeRatio&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;loanDistributorFeeRatio&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;setMaxDistributorFeeRatios&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;tokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;balanceCap&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;setBalanceCap&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [],
+    &quot;name&quot;: &quot;getInterestReserveAddress&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;interestReserveAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [],
+    &quot;name&quot;: &quot;getInterestModelAddress&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;interestModelAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;tokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;getTokenPrice&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;tokenPrice&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [],
+    &quot;name&quot;: &quot;getMaxDistributorFeeRatios&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;depositDistributorFeeRatio&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      },
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;loanDistributorFeeRatio&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [],
+    &quot;name&quot;: &quot;getProtocolReserveRatio&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;protocolReserveRatio&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;address&quot;,
+        &quot;name&quot;: &quot;tokenAddress&quot;,
+        &quot;type&quot;: &quot;address&quot;
+      }
+    ],
+    &quot;name&quot;: &quot;getBalanceCap&quot;,
+    &quot;outputs&quot;: [
+      {
+        &quot;internalType&quot;: &quot;uint256&quot;,
+        &quot;name&quot;: &quot;balanceCap&quot;,
+        &quot;type&quot;: &quot;uint256&quot;
+      }
+    ],
+    &quot;stateMutability&quot;: &quot;view&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [],
+    &quot;name&quot;: &quot;pause&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  },
+  {
+    &quot;inputs&quot;: [],
+    &quot;name&quot;: &quot;unpause&quot;,
+    &quot;outputs&quot;: [],
+    &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+    &quot;type&quot;: &quot;function&quot;
+  }
+]
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../contracts/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../contracts/address.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../contracts/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../contracts/address.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
