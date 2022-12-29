@@ -5,6 +5,19 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "AddBorrowerWhitelisted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "accountAddress",
         "type": "address"
       },
@@ -36,6 +49,32 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "AddKeeperWhitelisted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "AddLenderWhitelisted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "distributorAccountAddress",
         "type": "address"
       },
@@ -58,7 +97,7 @@
         "type": "uint256"
       }
     ],
-    "name": "DepositDistributorFeeTransfered",
+    "name": "DepositDistributorFeeTransferred",
     "type": "event"
   },
   {
@@ -103,12 +142,12 @@
       },
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "term",
-        "type": "uint256"
+        "internalType": "uint256[]",
+        "name": "terms",
+        "type": "uint256[]"
       }
     ],
-    "name": "DisableDepositTermSucceed",
+    "name": "DisableDepositTermsSucceed",
     "type": "event"
   },
   {
@@ -172,12 +211,12 @@
       },
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "term",
-        "type": "uint256"
+        "internalType": "uint256[]",
+        "name": "terms",
+        "type": "uint256[]"
       }
     ],
-    "name": "EnableDepositTermSucceed",
+    "name": "EnableDepositTermsSucceed",
     "type": "event"
   },
   {
@@ -227,7 +266,7 @@
         "type": "uint256"
       }
     ],
-    "name": "InterestReserveTransfered",
+    "name": "InterestReserveTransferred",
     "type": "event"
   },
   {
@@ -301,7 +340,7 @@
         "type": "uint256"
       }
     ],
-    "name": "LoanDistributorFeeTransfered",
+    "name": "LoanDistributorFeeTransferred",
     "type": "event"
   },
   {
@@ -435,6 +474,45 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "RemoveBorrowerWhitelisted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "RemoveKeeperWhitelisted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "RemoveLenderWhitelisted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "adminAddress",
         "type": "address"
       },
@@ -515,11 +593,11 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "interestModelAddress",
+        "name": "interestRateModelAddress",
         "type": "address"
       }
     ],
-    "name": "SetInterestModelSucceed",
+    "name": "SetInterestRateModelSucceed",
     "type": "event"
   },
   {
@@ -644,7 +722,7 @@
         "type": "uint256"
       }
     ],
-    "name": "SetProtocolReverveRatioSucceed",
+    "name": "SetProtocolReserveRatioSucceed",
     "type": "event"
   },
   {
@@ -723,6 +801,147 @@
     "type": "event"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "addBorrowerWhitelisted",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "addKeeperWhitelisted",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "addLenderWhitelisted",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getWhitelistedBorrowers",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "getWhitelistedKeepers",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "getWhitelistedLenders",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isBorrowerWhitelisted",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isKeeperWhitelisted",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isLenderWhitelisted",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
     "inputs": [],
     "name": "owner",
     "outputs": [
@@ -733,7 +952,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -746,6 +966,46 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "removeBorrowerWhitelisted",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "removeKeeperWhitelisted",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "removeLenderWhitelisted",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -770,7 +1030,22 @@
   },
   {
     "stateMutability": "payable",
-    "type": "receive"
+    "type": "receive",
+    "payable": true
+  },
+  {
+    "inputs": [],
+    "name": "pause",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "unpause",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "inputs": [
@@ -788,12 +1063,38 @@
   {
     "inputs": [
       {
+        "internalType": "uint256[]",
+        "name": "terms",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "enableDepositTerms",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "term",
         "type": "uint256"
       }
     ],
     "name": "disableDepositTerm",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "terms",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "disableDepositTerms",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -820,6 +1121,145 @@
       }
     ],
     "name": "disableDepositToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "loanTokenAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "collateralTokenAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "minCollateralCoverageRatio",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "liquidationDiscount",
+        "type": "uint256"
+      }
+    ],
+    "name": "setLoanAndCollateralTokenPair",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "loanTokenAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "collateralTokenAddress",
+        "type": "address"
+      }
+    ],
+    "name": "removeLoanAndCollateralTokenPair",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IPriceOracle",
+        "name": "priceOracle",
+        "type": "address"
+      }
+    ],
+    "name": "setPriceOracle",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IInterestRateModel",
+        "name": "interestRateModel",
+        "type": "address"
+      }
+    ],
+    "name": "setInterestRateModel",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address payable",
+        "name": "interestReserveAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setInterestReserveAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "protocolReserveRatio",
+        "type": "uint256"
+      }
+    ],
+    "name": "setProtocolReserveRatio",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "depositDistributorFeeRatio",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "loanDistributorFeeRatio",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMaxDistributorFeeRatios",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "balanceCap",
+        "type": "uint256"
+      }
+    ],
+    "name": "setBalanceCap",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -856,7 +1296,8 @@
       }
     ],
     "stateMutability": "payable",
-    "type": "function"
+    "type": "function",
+    "payable": true
   },
   {
     "inputs": [
@@ -897,6 +1338,155 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "loanTokenAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "collateralTokenAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "loanAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "collateralAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "loanTerm",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address payable",
+        "name": "distributorAddress",
+        "type": "address"
+      }
+    ],
+    "name": "loan",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "loanId",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function",
+    "payable": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "loanId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "repayAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "repayLoan",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "remainingDebt",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function",
+    "payable": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "loanId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "collateralAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "addCollateral",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "totalCollateralAmount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function",
+    "payable": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "loanId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "collateralAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "subtractCollateral",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "totalCollateralAmount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "loanId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "liquidateAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "liquidateLoan",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "remainingCollateral",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "liquidatedAmount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function",
+    "payable": true
+  },
+  {
     "inputs": [],
     "name": "getDepositTerms",
     "outputs": [
@@ -907,7 +1497,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -920,7 +1511,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -986,7 +1578,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -1052,7 +1645,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -1071,7 +1665,44 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "getLoanAndCollateralTokenPairs",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "loanTokenAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "collateralTokenAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minCollateralCoverageRatio",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "liquidationDiscount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct IStruct.LoanAndCollateralTokenPair[]",
+        "name": "loanAndCollateralTokenPairList",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -1084,104 +1715,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "loanTokenAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "collateralTokenAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "loanAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "collateralAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "loanTerm",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address payable",
-        "name": "distributorAddress",
-        "type": "address"
-      }
-    ],
-    "name": "loan",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "loanId",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "loanId",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "repayAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "repayLoan",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "remainingDebt",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "loanId",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "liquidateAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "liquidateLoan",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "remainingCollateral",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "liquidatedAmount",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "payable",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -1205,7 +1740,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -1311,7 +1847,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -1417,136 +1954,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "loanId",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "collateralAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "addCollateral",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "totalCollateralAmount",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "loanId",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "collateralAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "subtractCollateral",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "totalCollateralAmount",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "loanTokenAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "collateralTokenAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "minCollateralCoverageRatio",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "liquidationDiscount",
-        "type": "uint256"
-      }
-    ],
-    "name": "setLoanAndCollateralTokenPair",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "loanTokenAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "collateralTokenAddress",
-        "type": "address"
-      }
-    ],
-    "name": "removeLoanAndCollateralTokenPair",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getLoanAndCollateralTokenPairs",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "loanTokenAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "collateralTokenAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "minCollateralCoverageRatio",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "liquidationDiscount",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct IStruct.LoanAndCollateralTokenPair[]",
-        "name": "loanAndCollateralTokenPairList",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -1592,7 +2001,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -1653,176 +2063,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "tokenAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "contract IPriceOracle",
-        "name": "priceOracle",
-        "type": "address"
-      }
-    ],
-    "name": "setPriceOracle",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "contract IInterestModel",
-        "name": "interestModel",
-        "type": "address"
-      }
-    ],
-    "name": "setInterestModel",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address payable",
-        "name": "interestReserveAddress",
-        "type": "address"
-      }
-    ],
-    "name": "setInterestReserveAddress",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "protocolReserveRatio",
-        "type": "uint256"
-      }
-    ],
-    "name": "setProtocolReserveRatio",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "depositDistributorFeeRatio",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "loanDistributorFeeRatio",
-        "type": "uint256"
-      }
-    ],
-    "name": "setMaxDistributorFeeRatios",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "tokenAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "balanceCap",
-        "type": "uint256"
-      }
-    ],
-    "name": "setBalanceCap",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getInterestReserveAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "interestReserveAddress",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getInterestModelAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "interestModelAddress",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "tokenAddress",
-        "type": "address"
-      }
-    ],
-    "name": "getTokenPrice",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenPrice",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getMaxDistributorFeeRatios",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "depositDistributorFeeRatio",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "loanDistributorFeeRatio",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getProtocolReserveRatio",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "protocolReserveRatio",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -1841,20 +2083,88 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
-    "name": "pause",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "name": "getInterestRateModelAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "interestRateModelAddress",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenAddress",
+        "type": "address"
+      }
+    ],
+    "name": "getTokenPrice",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenPrice",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
-    "name": "unpause",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "name": "getMaxDistributorFeeRatios",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "depositDistributorFeeRatio",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "loanDistributorFeeRatio",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "getProtocolReserveRatio",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "protocolReserveRatio",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "getInterestReserveAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "interestReserveAddress",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   }
 ]
